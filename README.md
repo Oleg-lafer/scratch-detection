@@ -1,110 +1,113 @@
-# Scratch Detection Assignment
-Scratch Detection Assignment for a student position in the data science team at NI
+# Scratch Detection Project
 
-<img src="assets/NI_logo.png" width="100" height="100">
-Before you start working on this assignment, make sure you meet the prerequisites below: <a href="https://hdjq.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/job/25017214">Machine Learning Engineer Student Job Description</a>
+This project is focused on identifying scratches in semiconductor wafers by analyzing wafer maps. The primary goal of this project was to develop a solution for detecting scratches in wafers, a critical step in semiconductor manufacturing, which involves identifying both faulty and good dies affected by scratches.
 
-**Main mandatory requirements:**
+## Project Overview
 
-- Studying for M.Sc/B.Sc in Computer Science or related technical discipline( M.Sc is a big advantage)
-- Remaining studies of at least one and a half years.
-- Availability for 3-4 working days a week.
+Semiconductor wafers, used to fabricate microelectronic devices, can develop defects such as scratches during the manufacturing process. These scratches are often difficult to detect and can lead to quality issues with the final products. The challenge here was to build a model capable of identifying these scratches based on wafer maps.
 
-## Introduction:
+In this project, I implemented a solution that uses machine learning to predict whether a given die (a single unit of the wafer) is part of a scratch, which could either be faulty or good. The data provided included the status of individual dies, and the goal was to build a predictive model capable of identifying "scratches" in future wafer maps.
 
-In the semiconductor industry, **"wafers"** are thin discs of semiconductor material, such as silicon, used to fabricate microelectronic devices such as transistors, integrated circuits, and other components. A single wafer can contain hundreds or thousands of individual devices, known as **"dies"**, which are typically cut or "diced" from the wafer after the manufacturing process is completed.
+## Data
 
-You can read more about semiconductor here: <a href="https://web.archive.org/web/20230115132446/https://www.amd.com/en/technologies/introduction-to-semiconductors//">Introduction to Semiconductors</a>
+The dataset consists of wafer maps from various operations, with each die marked as either good or bad. The dataset includes the following columns:
 
-<figure>
-  <img src="assets/wafer.jpeg" width="350" height="280">
-  <figcaption>Fig.1 - An example of a standard wafer</figcaption>
-</figure>
+* **WaferName**: Name of the wafer.
+* **DieX**: Horizontal position of the die on the wafer.
+* **DieY**: Vertical position of the die on the wafer.
+* **IsGoodDie**: A binary column indicating whether the die is good (1) or faulty (0).
+* **IsScratchDie**: A binary column indicating whether the die belongs to a scratch (1) or not (0).
 
-One of the challenges in manufacturing wafers is to identify and isolate defects, including scratches, which can affect the performance and reliability of the resulting devices. 
+### Problem Statement
 
-Scratches are seen as elongated clusters of bad dies that have a high aspect ratio, meaning they are relatively thin and long compared to their width. They can be caused by equipment misalignment or mishandling by humans, and may contain latent defects that can affect the performance of the devices. Scratches may not always be continuous, so sometimes there may be good dies within the scratch. These good dies are often marked for removal in a manual process called "**Inked dies**" 
+Given a wafer map with information about the dies (their position and status), the task was to develop a model that could predict whether each die belongs to a scratch, which could be marked either as "Scratch" (faulty die) or "Ink" (good die that should be removed due to its association with the scratch).
 
-<figure>
-  <img src="assets/scratch.png">
-  <figcaption>Fig.2 - A scratch on a wafer - an optical view</figcaption>
-</figure>
+### Objective
 
-In the data that you receive, there may be faulty dies that are part of a scratch, which are labeled as "Scratch" as well as a few good dies that are part of a scratch, which are labeled as "Ink."
+The objective was to create a model that could:
 
-Many times, the Scratch Detection process will be done on the logical wafer map and not on a visual image of it.
+* Detect individual dies that are part of a scratch.
+* Classify them accurately based on their position and status.
 
-The data that you received is called **"wafer map"** as it maps the status of all dies in the wafer.
+Additionally, we considered the business goals, which included automating the detection process, improving wafer quality, and reducing the number of false positives (incorrectly marking a good die as part of a scratch).
 
-The dies in the wafers are tested in a large number of stations, operations, and in each operation it is possible to create a map of the dies in this operation by coloring the good dies in a certain color and the faulty dies in another color.
+## Approach
 
-<figure>
-  <img src="assets/wafer_map.png" width="300" height="300">
-  <figcaption>Fig.3 - A logical wafer map in a certain operation. good dies in green and bad dies in red</figcaption>
-</figure>
+### Data Exploration & Preprocessing
 
-Did you notice a scratch on this wafer?
+The first step involved exploring the data to understand the structure of the wafer maps, the distribution of good and bad dies, and identifying any correlations between die positions and their classification as scratch or not. Preprocessing included handling any missing values and encoding categorical data.
 
-Well, with our eyes it is easy to notice the scratch that comes out from the right side in the center of the wafer. 
+### Feature Engineering
 
-Note, that this scratch is not continuous, meaning, not all the dies which are placed on this scratch are considered faults in this operation. We have to identify all scracthed dies including bad & good. The good dies that are part of the scartch have to be itendified actively in order to be killed. This process is called "inking". 
+I used the positional data (DieX and DieY) as features, as these were key in detecting spatial patterns in the wafer map that might indicate a scratch. Additionally, I explored the relationship between neighboring dies, as scratches often form elongated clusters.
 
-We kill them because we fear that a physical scratch on the silicon wafer is what caused the sequence of these faulty dies, therefore even dies that passed the tests may be of low quality because they were damaged by the scratch on which they are placed.
+### Model Selection
 
-<figure>
-  <img src="assets/wafer_map_with_marks.png" width="300" height="300">
-  <figcaption>Fig.4 - A wafer map in a certain operation with scratch detection marks. good dies in grenn, bad dies in red, scratch in blue, ink in yellow</figcaption>
-</figure>
+For this problem, I experimented with various machine learning models, including:
 
-You can read more about the causes of die failures here: <a href="https://semiengineering.com/why-chips-die//">Why Chips Die</a>
+* Logistic Regression
+* Decision Trees
+* Random Forests
+* Gradient Boosting Machines (GBM)
 
-## Assignment description
+I selected the best-performing model based on its accuracy in detecting both "scratch" and "ink" dies.
 
-In this assignment you are receiving wafer maps in a certain operation and the goal is to predict whether a given die belongs to scratch or not.
+### Evaluation Metrics
 
-The data includes information about individual dies from a number of wafers.
+To evaluate the performance of the model, I used the following metrics:
 
-The table data includes the following columns:
+* **Accuracy**: The overall percentage of correct predictions.
+* **Precision and Recall**: To ensure the model accurately identifies both scratch and ink dies, minimizing both false positives and false negatives.
+* **F1-Score**: A balance between precision and recall.
 
--  `WaferName` : The name of the wafer from which the die came.
-- `DieX`: The horizontal position of the die on the wafer.
-- `DieY`: The vertical position of the die on the wafer.
-- `IsGoodDie`: A binary column indicating whether the die is good or not.
-- `IsScratchDie`: A binary column indicating whether the die belongs to a scratch or not.
+### Model Training & Evaluation
 
-Your goal is to use the training data to build a model that can predict, given a certain wafer map, the dies on the map that are parts of a scratch (whether they are bad, 'Scratch' or good, 'Ink').
+After training the model, I tested it on a separate validation set and evaluated its performance using the metrics mentioned above. The goal was to strike a balance between high recall (detecting all scratches) and high precision (not marking good dies as scratches).
 
-*The purpose of the assignment is mainly to get to reasonable solution that can help the business. Please note that real industry solutions usually achieve lower scores than you may be used from academic problems so even a low metric score on the test set may be considered a success*
+## Results
 
-Business goals:
+After experimenting with different models, I was able to achieve a robust model capable of identifying scratches in wafer maps with a reasonable balance between precision and recall.
 
-- **Automation**. This process is currently a manual and expensive procedure that takes a lot of time and is prone to errors by the tagger. The goal is to perform this procedure in a faster time and save the costs of the test
-- **Quality**. increasing the quality of the dies while balancing quality and yield (on the one hand, not to miss scratches, on the other hand not to do too much "Ink")
-- **Prediction Level**. As explained above, the main goal is to detect individual dies, but sometimes it will help to also get a classification at the wafer level, (binary classification, is there a scratch on this wafer or not?) because there are manufacturers who return scratched wafers to the factory.
+### Key Insights
 
-**Note**. In wafers with a low yield (that is, a lot of faulty dies), we will **not** perform scratch detection because the customer is afraid to find randomly generated scratches there and perform unnecessary ink. In such cases, the customer will make sure to check all the dies strictly in any case, but regardless of the detection of scratches. Therefore, in these cases we will not consider a sequence of bad die to be scratch. 
+* **Spatial Patterns**: The position of dies on the wafer plays a significant role in identifying scratches. Scratches often appear in elongated patterns across the wafer.
+* **Business Implications**: Automating this process saves time and reduces human errors, ultimately improving the quality of the manufacturing process.
 
-You are free to use any machine learning technique you find appropiate for solving this problem. Make sure choosing the relevamt metrics to test your solutions's performance.
+## Conclusion
 
-In addition to the training data, you are given a test set, which includes the x and y coordinates and the good/not status of each die, but does not include the scratch/not scratch labels. 
+This project provided a comprehensive solution for detecting scratches in semiconductor wafer maps, using machine learning to automate a previously manual and error-prone task. By focusing on business goals such as automation and quality, this model can help reduce manufacturing costs and improve the overall yield of semiconductor devices.
 
-You are asked to use your model to predict the scratch/not scratch status of the dies in the test set, and to save the predictions in a CSV file. You should submit your notebook including the experiments you did along the way to improve the model/various methods you tried and including your final model.
+## Installation & Usage
 
-Pay attention to the following points:
+1. Clone this repository:
 
-- Exploratoration and analyze the data
-- Consideration of business goals
-- Selection of relevant machine learning models
-- Appropriate choice of metrics
+   ```bash
+   git clone https://github.com/your-username/scratch-detection
+   cd scratch-detection
+   ```
 
-## Submission
+2. Install the required dependencies:
 
-1. After completing the assignment please review your notebook, making sure it ran properly from start to finish
-2. Create the prediction column for the test set as described in the notebook and save the results to a CVS file
-3. Send an email to the following:
-    - tomer.zemelman@emerson.com 
-    - The email should include a zip file with your notebook and a CSV file with the prediction.
-4. After receiving the email with the assignment we will inform you about the next steps
+   ```bash
+   pip install -r requirements.txt
+   ```
 
+3. Run the model training script:
 
-Good Luck!
+   ```bash
+   python train_model.py
+   ```
+
+4. Once the model is trained, you can use it to make predictions on new wafer maps:
+
+   ```bash
+   python predict.py --input <path_to_input_data> --output <path_to_output_predictions>
+   ```
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+Feel free to reach out if you have any questions or would like to contribute to this project!
