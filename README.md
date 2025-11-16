@@ -6,6 +6,7 @@ This project is focused on identifying scratches in semiconductor wafers by anal
   <img src="wafer2.png" alt="Wafer 2" width="200"/>
   <img src="d.JPG" alt="Wafer D" width="200"/>
 </p> 
+
 ## Project Overview
 
 Semiconductor wafers, used to fabricate microelectronic devices, can develop defects such as scratches during the manufacturing process. These scratches are often difficult to detect and can lead to quality issues with the final products. The challenge here was to build a model capable of identifying these scratches based on wafer maps.
