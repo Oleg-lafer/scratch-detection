@@ -1,4 +1,4 @@
-# Scratch Detection Project
+# Wafer-scratch-detection
 
 This project is focused on identifying scratches in semiconductor wafers by analyzing wafer maps. The primary goal of this project was to develop a solution for detecting scratches in wafers, a critical step in semiconductor manufacturing, which involves identifying both faulty and good dies affected by scratches.
 <p float="left">
