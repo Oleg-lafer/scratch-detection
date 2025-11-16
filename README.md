@@ -4,7 +4,6 @@ This project is focused on identifying scratches in semiconductor wafers by anal
 <p float="left">
   <img src="wafer1.jpg" alt="Wafer 1" width="200"/>
   <img src="wafer2.png" alt="Wafer 2" width="200"/>
-  <img src="c.JPG" alt="Wafer C" width="200"/>
   <img src="d.JPG" alt="Wafer D" width="200"/>
 </p> 
 ## Project Overview
@@ -70,6 +69,7 @@ To evaluate the performance of the model, I used the following metrics:
 After training the model, I tested it on a separate validation set and evaluated its performance using the metrics mentioned above. The goal was to strike a balance between high recall (detecting all scratches) and high precision (not marking good dies as scratches).
 
 ## Results
+  <img src="c.JPG" alt="Wafer C" width="200"/>
 
 After experimenting with different models, I was able to achieve a robust model capable of identifying scratches in wafer maps with a reasonable balance between precision and recall.
 
