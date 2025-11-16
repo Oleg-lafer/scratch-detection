@@ -1,11 +1,12 @@
 # Scratch Detection Project
 
 This project is focused on identifying scratches in semiconductor wafers by analyzing wafer maps. The primary goal of this project was to develop a solution for detecting scratches in wafers, a critical step in semiconductor manufacturing, which involves identifying both faulty and good dies affected by scratches.
-<img src="wafer1.jpg" alt="Wafer 1" width="300"/>  
-<img src="wafer2.png" alt="Wafer 2" width="300"/>  
-
-<img src="c.JPG" alt="Wafer C" width="300"/>  
-<img src="d.JPG" alt="Wafer D" width="300"/>  
+<p float="left">
+  <img src="wafer1.jpg" alt="Wafer 1" width="200"/>
+  <img src="wafer2.png" alt="Wafer 2" width="200"/>
+  <img src="c.JPG" alt="Wafer C" width="200"/>
+  <img src="d.JPG" alt="Wafer D" width="200"/>
+</p> 
 ## Project Overview
 
 Semiconductor wafers, used to fabricate microelectronic devices, can develop defects such as scratches during the manufacturing process. These scratches are often difficult to detect and can lead to quality issues with the final products. The challenge here was to build a model capable of identifying these scratches based on wafer maps.
